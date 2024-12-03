@@ -1,0 +1,28 @@
+/* Navbar.css */
+.navbar {
+    background-color: #f8f9fa; /* Light background */
+  }
+  
+  .nav-link {
+    font-weight: 500; /* Semi-bold text */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  }
+  
+  .nav-link:hover {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* Change text color on hover */
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem; /* Larger brand text */
+    color: #343a40; /* Dark text color */
+  }
+  
+  .navbar-brand:hover {
+    color: #007bff; /* Change brand color on hover */
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important; /* Small shadow effect */
+  }
+  

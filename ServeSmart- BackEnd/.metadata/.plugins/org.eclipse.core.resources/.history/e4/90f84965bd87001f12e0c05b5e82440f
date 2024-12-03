@@ -1,0 +1,110 @@
+package edu.swaroop.servesmart.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import edu.swaroop.servesmart.entity.Order;
+import edu.swaroop.servesmart.entity.Response;
+import edu.swaroop.servesmart.service.OrderService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/orders")
+@CrossOrigin(origins ="*")
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
+    
+    @PostMapping
+    protected ResponseEntity<Response<Order>> addOrder(@RequestBody Order order) {
+        Order createdOrder = orderService.addOrder(order);
+        Response<Order> response = new Response<>();
+        response.setMessage("Order added successfully.");
+        response.setStatus(HttpStatus.CREATED.value());
+        response.setData(createdOrder);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED); 
+    }
+
+    
+    @GetMapping
+    protected ResponseEntity<Response<List<Order>>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        Response<List<Order>> response = new Response<>();
+        response.setMessage("Orders retrieved successfully.");
+        response.setStatus(HttpStatus.OK.value());
+        response.setData(orders);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/table/{tableId}")
+    protected ResponseEntity<Response<List<Order>>> getOrdersByTableId(@PathVariable int tableId) {
+        List<Order> orders = orderService.getOrdersByTableId(tableId);
+        Response<List<Order>> response = new Response<>();
+
+        if (!orders.isEmpty()) {
+            response.setMessage("Orders retrieved successfully.");
+            response.setStatus(HttpStatus.OK.value());
+            response.setData(orders);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.setMessage("No orders found for this table.");
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            response.setData(null);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    
+    @GetMapping("/{id}")
+    protected ResponseEntity<Response<Order>> getOrderById(@PathVariable int id) {
+        Order order = orderService.getOrderById(id);
+        Response<Order> response = new Response<>();
+
+        if (order != null) {
+            response.setMessage("Order retrieved successfully.");
+            response.setStatus(HttpStatus.OK.value());
+            response.setData(order);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.setMessage("Order not found.");
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            response.setData(null);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+   
+    @PutMapping("/table/{table_Id}")
+    protected ResponseEntity<Response<Order>> updateOrder(@PathVariable int table_Id, @RequestBody Order order) {
+        // Call the service to update the order
+        Order updatedOrder = orderService.updateOrder(table_Id, order);
+
+        // Create the response object
+        Response<Order> response = new Response<>();
+        response.setMessage("Order updated successfully.");
+        response.setStatus(HttpStatus.OK.value());
+        response.setData(updatedOrder); // Return the updated order
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    
+    @DeleteMapping("/{id}")
+    protected ResponseEntity<Response<String>> deleteOrder(@PathVariable int id) throws Exception {
+        orderService.deleteOrder(id);
+        Response<String> response = new Response<>();
+        response.setMessage("Order deleted successfully.");
+        response.setStatus(HttpStatus.OK.value());
+        response.setData("Order with ID " + id + " has been deleted.");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+}

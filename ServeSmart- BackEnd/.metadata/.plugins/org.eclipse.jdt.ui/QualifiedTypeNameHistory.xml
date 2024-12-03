@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Dish"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.repository.DishRepository"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.service.DishService"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="org.hibernate.annotations.Collate"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Column"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.repository.TablesRepository"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.service.TablesService"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Tables"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpStatusCode"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.function.EntityResponse"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Response"/>
+    <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.RestaurantTable"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Order"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Bill"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="edu.swaroop.servesmart.entity.Billing"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.lang.System.Logger"/>
+</qualifiedTypeNameHistroy>

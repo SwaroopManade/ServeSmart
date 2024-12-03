@@ -1,0 +1,131 @@
+package edu.swaroop.servesmart.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import edu.swaroop.servesmart.entity.Dish;
+import edu.swaroop.servesmart.entity.Order;
+import edu.swaroop.servesmart.entity.RestaurantTable;
+import edu.swaroop.servesmart.repository.DishRepository;
+//import edu.swaroop.servesmart.entity.Tables;
+import edu.swaroop.servesmart.repository.OrderRepository;
+import edu.swaroop.servesmart.repository.TablesRepository;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private TablesRepository tablesRepository;
+    @Autowired
+    private DishRepository dishRepository;
+    
+    
+    public Order addOrder(Order order) {
+        // Fetch the RestaurantTable entity by ID
+        RestaurantTable table = tablesRepository.findById(order.getTable().getId())
+                .orElseThrow(() -> new RuntimeException("Table not found with ID: " + order.getTable().getId()));
+
+        // Create a list to hold the verified dishes
+        List<Dish> verifiedDishes = new ArrayList<>();
+
+        // Process each dish in the order to ensure it exists in the database
+        for (Dish dish : order.getDishes()) {
+            // Fetch the dish from the database by ID to ensure integrity
+            Dish verifiedDish = dishRepository.findById(dish.getId())
+                    .orElseThrow(() -> new RuntimeException("Dish not found with ID: " + dish.getId()));
+
+            // Add to the verified dishes list
+            verifiedDishes.add(verifiedDish);
+        }
+
+        // Set the verified dishes and table to the order
+        order.setTable(table);
+        order.setDishes(verifiedDishes);
+
+        // Save and return the order without handling quantity or totalAmount
+        return orderRepository.save(order);
+    }
+
+
+    /**
+     * Retrieves all orders.
+     *
+     * @return A list of all orders.
+     */
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+    
+    
+    public List<Order> getOrdersByTableId(int tableId) {
+        return orderRepository.findByTableId(tableId); // You might need to create this method in your repository
+    }
+
+
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param id The ID of the order to retrieve.
+     * @return The order object if found, otherwise null.
+     */
+    public Order getOrderById(int id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        return orderOptional.orElse(null);
+    }
+
+    /**
+     * Updates an existing order.
+     *
+     * @param id    The ID of the order to update.
+     * @param order The updated order object.
+     * @return The updated order object.
+     * @throws Exception if the order is not found.
+     */
+    public List<Order> updateOrder(int id, Order order) throws Exception {
+        // Find existing orders by table ID
+        List<Order> existingOrders = orderRepository.findByTableId(id);
+
+        // Check if the existing orders list is empty
+        if (existingOrders.isEmpty()) {
+            throw new Exception("Order not found with ID: " + id);
+        }
+
+        // Assuming you want to update only the first order in the list
+        Order existingOrder = existingOrders.get(0); // Get the first order to update
+
+        // Now update only the fields that are not null in the incoming order object
+        List<Dish> dishes = order.getDishes();
+        
+        // Assuming you want to add new dishes to the existing order
+        if (dishes != null) {
+            existingOrder.getDishes().addAll(dishes); // Add new dishes to the existing order
+        }
+
+        // Save the updated order
+        return orderRepository.saveAll(existingOrders);
+    }
+
+
+
+    /**
+     * Deletes an order by its ID.
+     *
+     * @param id The ID of the order to delete.
+     * @throws Exception if the order is not found.
+     */
+    public void deleteOrder(int id) throws Exception {
+        if (!orderRepository.existsById(id)) {
+            throw new Exception("Order not found with ID: " + id);
+        }
+        orderRepository.deleteById(id);
+    }
+}
